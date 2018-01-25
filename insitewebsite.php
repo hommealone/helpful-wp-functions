@@ -45,6 +45,8 @@ function _tk_body_classes( $classes ) {
 
 	return $classes;
 }
+// uncomment next line if not already included in the theme. In _tk, check includes/extras.php
+//add_filter( 'body_class', '_tk_body_classes' );
 
 /*
  * Add year shortcode: [year]
