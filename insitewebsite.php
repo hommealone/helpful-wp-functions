@@ -23,6 +23,29 @@ remove_action( 'admin_print_styles', 'print_emoji_styles' );
 // Remove meta generator tag (WordPress version)
 remove_action('wp_head', 'wp_generator');
 
+/**
+ *  Remove Customizer item from admin bar 
+ */
+add_action( 'admin_bar_menu', 'iw_remove_from_admin_bar', 999 );
+function iw_remove_from_admin_bar( $wp_admin_bar ) {
+    $wp_admin_bar->remove_menu( 'customize' );
+}
+
+/**
+ * Adds custom classes to the array of body classes.
+ */
+function _tk_body_classes( $classes ) {
+	global $post; // added to enable retrieval of slug
+	// get slug:
+	$post_slug = $post->post_name;
+	// Add the page slug as a body class
+	if ( $post_slug ) {
+		$classes[] = 'page-'.$post_slug;
+	}
+
+	return $classes;
+}
+
 /*
  * Add year shortcode: [year]
 */
@@ -32,6 +55,28 @@ function year_func( $atts ){
 };
 add_shortcode( 'year', 'year_func' );
 
+/**
+ * Add short tag [date] [date format='short'] [date format='long']
+ */
+function astor_date_shortcode( $atts ) {
+	// Attributes
+	extract(shortcode_atts(
+		array(
+			'format' => '',
+		),
+		$atts)
+	);
+	// NOTE: this is not working properly... PS
+	if ($format=='short') {
+	    $date_tag = date('F j, Y');
+	} elseif ($format=='long') {
+	    $date_tag = date('l, F j, Y');
+	} else {
+	    $date_tag = date('l, F jS, Y');
+	};
+	return $date_tag;
+}
+add_shortcode( 'date', 'astor_date_shortcode' );
 
 /*
  * Allow PHP in text widgets
