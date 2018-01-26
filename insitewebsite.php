@@ -29,7 +29,7 @@ remove_action('wp_head', 'wp_generator');
 add_action( 'admin_bar_menu', 'iw_remove_from_admin_bar', 999 );
 function iw_remove_from_admin_bar( $wp_admin_bar ) {
     $wp_admin_bar->remove_menu( 'customize' );
-}
+};
 
 /**
  * Adds custom classes to the array of body classes.
@@ -41,26 +41,25 @@ function _tk_body_classes( $classes ) {
 	// Add the page slug as a body class
 	if ( $post_slug ) {
 		$classes[] = 'page-'.$post_slug;
-	}
-
+	};
 	return $classes;
-}
+};
 // uncomment next line if not already included in the theme. In _tk, check includes/extras.php
 //add_filter( 'body_class', '_tk_body_classes' );
 
 /*
  * Add year shortcode: [year]
 */
-function year_func( $atts ){
+function iw_year_func( $atts ){
     $current_year = date('Y');
     return $current_year;
 };
-add_shortcode( 'year', 'year_func' );
+add_shortcode( 'year', 'iw_year_func' );
 
 /**
  * Add short tag [date] [date format='short'] [date format='long']
  */
-function astor_date_shortcode( $atts ) {
+function iw_date_shortcode( $atts ) {
 	// Attributes
 	extract(shortcode_atts(
 		array(
@@ -78,7 +77,7 @@ function astor_date_shortcode( $atts ) {
 	};
 	return $date_tag;
 }
-add_shortcode( 'date', 'astor_date_shortcode' );
+add_shortcode( 'date', 'iw_date_shortcode' );
 
 /*
  * Allow PHP in text widgets
@@ -221,3 +220,24 @@ function redirect_to_home_if_author_parameter() {
 };
 // if you use htaccess for this instead, comment out the next line.
 add_action( 'template_redirect', 'redirect_to_home_if_author_parameter' );
+
+/*
+ * Add image size
+ * or in this case modify medium_large size
+ * We theme with Bootstrap for 5 responsive breakpoints
+ *
+ */
+function add_medium_large_image() {
+	add_image_size( 'medium_large', 768, 768 );
+};
+add_action( 'after_setup_theme', 'add_medium_large_image' );
+
+/**
+ * Make custom image sizes selectable from the WordPress admin
+*/
+add_filter( 'image_size_names_choose', 'iw_image_size_names_choose' );
+function iw_image_size_names_choose( $sizes ) {
+	return array_merge( $sizes, array(
+		'medium_large' => __( 'Medium Large' ),
+	) );
+};
