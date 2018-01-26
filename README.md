@@ -1,10 +1,21 @@
 # helpful-wp-functions
 Helpful functions to add to your WordPress themes.
 
-You can add these functions to your functions.php file, or keep them as a distinct file and add an include() to your functions.php file.
+You can add these functions a la carte to your functions.php file, or keep them all as a distinct file and add using an include() in your functions.php file. Comment in or out those which you are/are not using.
 
 ```
 <?php
+/**
+ * Custom functions that we commonly use in our Wordpress themes
+ *
+ * @package _tk
+ */
+
+/*
+ * Site functions for this theme
+ * Author: Paul Solomon
+*/
+
 /*
  * Remove garbage from head
 */
@@ -18,15 +29,61 @@ remove_action( 'admin_print_styles', 'print_emoji_styles' );
 // Remove meta generator tag (WordPress version)
 remove_action('wp_head', 'wp_generator');
 
+/**
+ *  Remove Customizer item from admin bar 
+ */
+add_action( 'admin_bar_menu', 'iw_remove_from_admin_bar', 999 );
+function iw_remove_from_admin_bar( $wp_admin_bar ) {
+    $wp_admin_bar->remove_menu( 'customize' );
+};
+
+/**
+ * Adds custom classes to the array of body classes.
+ */
+function _tk_body_classes( $classes ) {
+	global $post; // added to enable retrieval of slug
+	// get slug:
+	$post_slug = $post->post_name;
+	// Add the page slug as a body class
+	if ( $post_slug ) {
+		$classes[] = 'page-'.$post_slug;
+	};
+	return $classes;
+};
+// uncomment next line if not already included in the theme. In _tk, check includes/extras.php
+//add_filter( 'body_class', '_tk_body_classes' );
+
 /*
  * Add year shortcode: [year]
 */
-function year_func( $atts ){
+function iw_year_func( $atts ){
     $current_year = date('Y');
     return $current_year;
 };
-add_shortcode( 'year', 'year_func' );
+add_shortcode( 'year', 'iw_year_func' );
 
+/**
+ * Add short tag [date] [date format='short'] [date format='long']
+ */
+function iw_date_shortcode( $atts ) {
+	// Attributes
+	extract(shortcode_atts(
+		array(
+			'format' => '',
+		),
+		$atts)
+	);
+	// NOTE: this is not working properly... PS
+	if ($format=='short') {
+	    $date_tag = date('F j, Y');
+	} elseif ($format=='long') {
+	    $date_tag = date('l, F j, Y');
+	} else {
+	    $date_tag = date('l, F jS, Y');
+	};
+	return $date_tag;
+}
+add_shortcode( 'date', 'iw_date_shortcode' );
 
 /*
  * Allow PHP in text widgets
@@ -58,7 +115,7 @@ add_filter( 'admin_bar_menu', 'replace_howdy',25 );
 
 /**
  * just for TESTIING script handles:
- * puts a list of script handles in the head;
+ * puts a list of script handles in the head; useful if you are trying to find a script handle.
  * comment out next line when NOT testing
  */
 //add_action( 'wp_print_scripts', 'wpa54064_inspect_scripts');
@@ -169,5 +226,26 @@ function redirect_to_home_if_author_parameter() {
 };
 // if you use htaccess for this instead, comment out the next line.
 add_action( 'template_redirect', 'redirect_to_home_if_author_parameter' );
+
+/*
+ * Add image size
+ * or in this case modify medium_large size
+ * We theme with Bootstrap for 5 responsive breakpoints
+ *
+ */
+function add_medium_large_image() {
+	add_image_size( 'medium_large', 768, 768 );
+};
+add_action( 'after_setup_theme', 'add_medium_large_image' );
+
+/**
+ * Make custom image sizes selectable from the WordPress admin
+*/
+add_filter( 'image_size_names_choose', 'iw_image_size_names_choose' );
+function iw_image_size_names_choose( $sizes ) {
+	return array_merge( $sizes, array(
+		'medium_large' => __( 'Medium Large' ),
+	) );
+};
 
 ```
