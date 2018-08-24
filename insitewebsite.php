@@ -20,8 +20,11 @@ remove_action( 'admin_print_scripts', 'print_emoji_detection_script' );
 remove_action( 'wp_print_styles', 'print_emoji_styles' );
 remove_action( 'admin_print_styles', 'print_emoji_styles' );
 
-// Remove meta generator tag (WordPress version)
-remove_action('wp_head', 'wp_generator');
+// Remove meta generator tag (WordPress version) from head AND RSS feed
+function iw_remove_version() {
+	return '';
+}
+add_filter('the_generator', 'iw_remove_version');
 
 /**
  *  Remove Customizer item from admin bar 
