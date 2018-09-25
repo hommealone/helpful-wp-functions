@@ -302,3 +302,11 @@ function iw_forcelogin() {
   }
 }
 add_action('init', 'iw_forcelogin');
+
+/* 
+ * Dis-allow theme and plugin file editing from the WP admin
+ * See: https://www.wpbeginner.com/wp-tutorials/how-to-disable-theme-and-plugin-editors-from-wordpress-admin-panel/
+ * Note: often inserted into wp-config.php, this also works in theme function files.
+ * Uncomment for use.
+ */
+//define( 'DISALLOW_FILE_EDIT', true );
