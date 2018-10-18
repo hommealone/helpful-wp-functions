@@ -317,4 +317,18 @@ add_action('init', 'iw_forcelogin');
  */
 //define( 'DISALLOW_FILE_EDIT', true );
 
+/** 
+ * Integrate Clear Cache for Me with Autoptimize
+ * This function allows the Clear Cache For Me dashboard button to also clear the Autoptimize cache.
+ * see: https://gist.github.com/benjaminpick/94b487ce995454797143
+ * see: https://wordpress.org/plugins/clear-cache-for-widgets/  (AKA Clear Cache For Me)
+ */
+function yt_cache_enable($return) {
+	if (class_exists('autoptimizeCache'))
+		return true;
+	
+	return $return;
+}
+add_filter('ccfm_supported_caching_exists', 'yt_cache_enable');
+
 ```
