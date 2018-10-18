@@ -313,7 +313,7 @@ add_action('init', 'iw_forcelogin');
 
 /** 
  * Integrate Clear Cache for Me with Autoptimize
- 8 This function makes the Clear Cache For Me dashboard button clear the Autoptimize cache as well.
+ * This function makes the Clear Cache For Me dashboard button clear the Autoptimize cache as well.
  * see: https://gist.github.com/benjaminpick/94b487ce995454797143
  * see: https://wordpress.org/plugins/clear-cache-for-widgets/  (AKA Clear Cache For Me)
  */
