@@ -324,3 +324,39 @@ function yt_cache_enable($return) {
 	return $return;
 }
 add_filter('ccfm_supported_caching_exists', 'yt_cache_enable');
+
+/**
+ * Load Contact Form 7 on Contact page only.
+ * Deregister Contact Form 7 stylesheets on all pages without a form.
+ * Deregister Contact Form 7 JavaScript files on all pages without a form.
+ * See: https://code.tutsplus.com/articles/optimizing-contact-form-7-for-better-performance--wp-31255
+ * Also deregister bootstrap for contact form 7 plugin files.
+ * Also dequeue google recaptcha v3.
+ * See: https://wordpress.org/support/topic/disable-recaptcha-v3-for-all-pages-except-the-one-with-a-contact7-form/
+ **/
+add_action( 'wp_print_styles', 'iw_deregister_styles', 100 );
+function iw_deregister_styles() {
+    if ( ! is_page( 'contact' ) ) {
+    // if you have a contact form on several pages, substitute the next line
+    // if ( !is_page( array( 'contact','some-other-page-with-form' ) ) ) {
+        wp_deregister_style( 'contact-form-7' );
+        wp_deregister_style( 'contact-form-7-bootstrap-style' );
+    }
+}
+add_action( 'wp_print_scripts', 'iw_deregister_javascript', 100 );
+function iw_deregister_javascript() {
+    if ( ! is_page( 'contact' ) ) {
+    // if you have a contact form on several pages, substitute the next line
+    // if ( !is_page( array( 'contact','some-other-page-with-form' ) ) ) {
+        wp_deregister_script( 'contact-form-7' );
+    }
+}
+/* Remove Google ReCaptcha V3 code/badge everywhere apart from select pages */
+add_action('wp_print_scripts', function () {{
+    if ( ! is_page( 'contact' ) ) {
+    // if you have a contact form on several pages, substitute the next line
+    // if ( !is_page( array( 'contact','some-other-page-with-form' ) ) ) {
+        wp_dequeue_script( 'google-recaptcha' );
+        wp_dequeue_script( 'google-invisible-recaptcha' );
+    }
+});
