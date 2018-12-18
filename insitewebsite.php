@@ -352,7 +352,7 @@ function iw_deregister_javascript() {
     }
 }
 /* Remove Google ReCaptcha V3 code/badge everywhere apart from select pages */
-add_action('wp_print_scripts', function () {{
+add_action('wp_print_scripts', function () {
     if ( ! is_page( 'contact' ) ) {
     // if you have a contact form on several pages, substitute the next line
     // if ( !is_page( array( 'contact','some-other-page-with-form' ) ) ) {
