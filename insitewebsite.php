@@ -360,3 +360,49 @@ add_action('wp_print_scripts', function () {
         wp_dequeue_script( 'google-invisible-recaptcha' );
     }
 });
+/** ==========================================================================
+ * Enhancements for the AddQuicktags plugin 
+ * 
+ * See: https://kinsta.com/blog/wordpress-text-editor/
+ * See also: https://wordpress.org/plugins/addquicktag/
+ */
+function custom_quicktags() {
+
+	if ( wp_script_is( 'quicktags' ) ) {
+	?>
+	<script type="text/javascript">
+	
+	QTags.addButton( 'p-tag', 'p', '<p>', '</p>', '', 'paragraph tag', 3 );
+	QTags.addButton( 'div-tag', 'div', '<div>', '</div>', '', 'div tag', 4 );
+	QTags.addButton( 'h2-tag', 'h2', '<h2>', '</h2>', '', 'h2 tag', 5 );
+	QTags.addButton( 'h3-tag', 'h3', '<h3>', '</h3>', '', 'h3 tag', 6 );
+	QTags.addButton( 'h4-tag', 'h4', '<h4>', '</h4>', '', 'h4 tag', 7 );
+	
+	QTags.addButton( 'class_button_tag', 'class', css_callback );
+
+	function css_callback(){
+		var css_class = prompt( 'Class name:', '' );
+
+		if ( css_class && css_class !== '' ) {
+			QTags.insertContent(' class="' + css_class +'"');
+		}
+	}
+	
+	QTags.addButton( 'style_button_tag', 'style', style_callback );
+
+	function style_callback(){
+		var css_style = prompt( 'Styles:', '' );
+
+		if ( css_style && css_style !== '' ) {
+			QTags.insertContent(' style="' + css_style +'"');
+		}
+	}
+	
+	QTags.addButton( 'target-tag', 'target', ' target="_blank"', '', '', 'target attribute' );
+	
+	</script>
+	<?php
+	}
+}
+
+add_action( 'admin_print_footer_scripts', 'custom_quicktags' );
