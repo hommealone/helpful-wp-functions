@@ -436,4 +436,4 @@ function iw_hook_favicon() {
 	$favicon_meta .= PHP_EOL;
 	echo $favicon_meta;
 }
-add_action('wp_head', 'iw_hook_favicon');
+add_action('wp_head', 'iw_hook_favicon', 15);
