@@ -411,29 +411,28 @@ add_action( 'admin_print_footer_scripts', 'custom_quicktags' );
 /** ==========================================================================
  * Add custom favicon meta to head and keep it neat; 
  * see: https://developer.wordpress.org/reference/hooks/wp_head/
- * See: https://www.favicon-generator.org/
- * All icon files have been added to /favicon/ directory outside of WordPress installation 
+ * See: https://realfavicongenerator.net/
+ * Use priority 15, or greater as needed, to keep this at the end of the head.
+ * meta name="theme-color" controls the menu bar color in Chrome mobile; keep it rather light.
+ * meta name="application-name" controls the title of the application tile in Windows OS tiles.
+ * All icon files have been added to /favicon/ directory outside of WordPress installation,
+ * except favicon.ico (multi-size icon file), browserconfig.xml, and site.manifest, which are in the root.
+ * browserconfig.xml and site.manifest point to files in the subdirectory.
+ * Be sure that the domain name matches your site's root.
  */
 function iw_hook_favicon() {
 	$favicon_meta = PHP_EOL.'<!-- favicons for multiple devices -->'.PHP_EOL;
-	$favicon_meta .= '<link rel="apple-touch-icon" sizes="57x57" href="/favicon/apple-icon-57x57.png">'.PHP_EOL;
-	$favicon_meta .= '<link rel="apple-touch-icon" sizes="60x60" href="/favicon/apple-icon-60x60.png">'.PHP_EOL;
-	$favicon_meta .= '<link rel="apple-touch-icon" sizes="72x72" href="/favicon/apple-icon-72x72.png">'.PHP_EOL;
-	$favicon_meta .= '<link rel="apple-touch-icon" sizes="76x76" href="/favicon/apple-icon-76x76.png">'.PHP_EOL;
-	$favicon_meta .= '<link rel="apple-touch-icon" sizes="114x114" href="/favicon/apple-icon-114x114.png">'.PHP_EOL;
-	$favicon_meta .= '<link rel="apple-touch-icon" sizes="120x120" href="/favicon/apple-icon-120x120.png">'.PHP_EOL;
-	$favicon_meta .= '<link rel="apple-touch-icon" sizes="144x144" href="/favicon/apple-icon-144x144.png">'.PHP_EOL;
-	$favicon_meta .= '<link rel="apple-touch-icon" sizes="152x152" href="/favicon/apple-icon-152x152.png">'.PHP_EOL;
-	$favicon_meta .= '<link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-icon-180x180.png">'.PHP_EOL;
-	$favicon_meta .= '<link rel="icon" type="image/png" sizes="192x192"  href="/favicon/android-icon-192x192.png">'.PHP_EOL;
-	$favicon_meta .= '<link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png">'.PHP_EOL;
-	$favicon_meta .= '<link rel="icon" type="image/png" sizes="96x96" href="/favicon/favicon-96x96.png">'.PHP_EOL;
-	$favicon_meta .= '<link rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png">'.PHP_EOL;
-	$favicon_meta .= '<link rel="manifest" href="/favicon/manifest.json">'.PHP_EOL;
-	$favicon_meta .= '<link rel="shortcut icon" href="/favicon/favicon.ico" />'.PHP_EOL;
-	$favicon_meta .= '<meta name="msapplication-TileColor" content="#ffffff">'.PHP_EOL;
-	$favicon_meta .= '<meta name="msapplication-TileImage" content="/favicon/ms-icon-144x144.png">'.PHP_EOL;
-	$favicon_meta .= '<meta name="theme-color" content="#ffffff">'.PHP_EOL;
+	$favicon_meta .= '<link rel="apple-touch-icon" sizes="180x180" href="https://example.com/favicon/apple-touch-icon.png?v=190312">'.PHP_EOL;
+	$favicon_meta .= '<link rel="icon" type="image/png" sizes="32x32" href="https://example.com/favicon/favicon-32x32.png?v=190312">'.PHP_EOL;
+	$favicon_meta .= '<link rel="icon" type="image/png" sizes="16x16" href="https://example.com/favicon/favicon-16x16.png?v=190312">'.PHP_EOL;
+	$favicon_meta .= '<link rel="mask-icon" href="https://example.com/favicon/safari-pinned-tab.svg?v=190312" color="#46aa48">'.PHP_EOL;
+	$favicon_meta .= '<link rel="manifest" href="https://example.com/site.webmanifest?v=190312">'.PHP_EOL;
+	$favicon_meta .= '<link rel="shortcut icon" href="https://example.com/favicon.ico?v=190312">'.PHP_EOL;
+	$favicon_meta .= '<meta name="msapplication-config" content="https://example.com/browserconfig.xml?v=190312">'.PHP_EOL;
+	$favicon_meta .= '<meta name="apple-mobile-web-app-title" content="Example">'.PHP_EOL;
+	$favicon_meta .= '<meta name="application-name" content="Example">'.PHP_EOL;
+	$favicon_meta .= '<meta name="msapplication-TileColor" content="#00a300">'.PHP_EOL;
+	$favicon_meta .= '<meta name="theme-color" content="#7bcd7d">'.PHP_EOL;
 	$favicon_meta .= PHP_EOL;
 	echo $favicon_meta;
 }
