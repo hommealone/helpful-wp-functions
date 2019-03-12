@@ -367,7 +367,8 @@ add_action('wp_print_scripts', function () {
     }
 });
 /** ==========================================================================
- * Enhancements for the AddQuicktags plugin 
+ * Enhancements for Quicktags
+ * These can be enhancements for the AddQuicktags plugin or independent from it.
  * 
  * See: https://kinsta.com/blog/wordpress-text-editor/
  * See also: https://wordpress.org/plugins/addquicktag/
