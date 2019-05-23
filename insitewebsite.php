@@ -437,3 +437,45 @@ function iw_hook_favicon() {
 	echo $favicon_meta;
 }
 add_action('wp_head', 'iw_hook_favicon', 15);
+
+/** ==========================================================================
+ * Modify the tags allowed in comments
+ * see: https://crunchify.com/the-best-way-to-allow-html-tags-in-wordpress-comment-form/
+ */
+function insite_remove_html_attributes_in_commentform() {
+    global $allowedtags;
+	/* we will remove all tags and then add back just the few we want so they will be in sensible order */
+    /* remove insite_tags_to_remove tags */
+    $insite_tags_to_remove = array(
+		'a',
+		'blockquote',
+		'abbr',
+		'acronym',
+		'q',
+		's',
+		'strike',
+        'cite',
+        'code',
+        'del',
+        'pre',
+		'b',
+		'i',
+		'strong',
+		'em'
+        );
+    foreach ( $insite_tags_to_remove as $tag )
+        unset( $allowedtags[$tag] );
+    /* add wanted tags */
+    $insite_newTags = array(
+        /* 'span' => array(
+            'lang' => array()), */
+		'b' => array(),
+		'strong' => array(),
+		'i' => array(),
+		'em' => array(),
+		'blockquote' => array()
+        );
+    $allowedtags = array_merge( $allowedtags, $insite_newTags );
+}
+add_action('init', 'insite_remove_html_attributes_in_commentform', 11 );
+
