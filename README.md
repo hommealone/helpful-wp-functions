@@ -485,4 +485,13 @@ function insite_remove_html_attributes_in_commentform() {
 }
 add_action('init', 'insite_remove_html_attributes_in_commentform', 11 );
 
+/** =========================================================================
+ * hide "+ Add New Category" in Categories meta box
+ * make it harder for editors to add categories
+ */
+function iw_hide_new_category_option() {
+  echo '<style>#category-adder {display: none;}</style>';
+}
+add_action('admin_head', 'iw_hide_new_category_option');
+
 ```
