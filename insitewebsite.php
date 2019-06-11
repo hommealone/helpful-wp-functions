@@ -214,6 +214,7 @@ add_filter( 'wp_get_nav_menu_items', 'prefix_cpt_archive_menu_filter', 10, 3 );
  * This can be done with lower overhead by editing your htaccess file;
  * see referenced page for the code.
  */
+/* Step one: */
 function redirect_to_home_if_author_parameter() {
 	$is_author_set = get_query_var( 'author', '' );
 	if ( $is_author_set != '' && !is_admin()) {
@@ -223,6 +224,17 @@ function redirect_to_home_if_author_parameter() {
 };
 // if you use htaccess for this instead, comment out the next line.
 add_action( 'template_redirect', 'redirect_to_home_if_author_parameter' );
+/* Step two: */
+function disable_rest_endpoints ( $endpoints ) {
+    if ( isset( $endpoints['/wp/v2/users'] ) ) {
+        unset( $endpoints['/wp/v2/users'] );
+    }
+    if ( isset( $endpoints['/wp/v2/users/(?P<id>[\d]+)'] ) ) {
+        unset( $endpoints['/wp/v2/users/(?P<id>[\d]+)'] );
+    }
+    return $endpoints;
+}
+add_filter( 'rest_endpoints', 'disable_rest_endpoints');
 
 /*
  * Add image size
