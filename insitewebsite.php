@@ -538,3 +538,20 @@ function iw_hide_new_category_option() {
   echo '<style>#category-adder {display: none;}</style>';
 }
 add_action('admin_head', 'iw_hide_new_category_option');
+
+/** =========================================================================
+ * Remove archive type from archive page title
+ * see: https://wordpress.stackexchange.com/questions/179585/remove-category-tag-author-from-the-archive-title
+ */
+add_filter( 'get_the_archive_title', function ($title) {
+    if ( is_category() ) {
+            $title = single_cat_title( '', false );
+        } elseif ( is_tag() ) {
+            $title = single_tag_title( '', false );
+        } elseif ( is_author() ) {
+            $title = '<span class="vcard">' . get_the_author() . '</span>' ;
+        } elseif ( is_post_type_archive() ) {
+			$title = post_type_archive_title( '', false );
+		}
+    return $title;
+});
