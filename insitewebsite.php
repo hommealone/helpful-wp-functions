@@ -39,16 +39,54 @@ function iw_remove_from_admin_bar( $wp_admin_bar ) {
  */
 function _tk_body_classes( $classes ) {
 	global $post; // added to enable retrieval of slug
+	global $template; // added to enable retrieval of template file name
 	// get slug:
 	$post_slug = $post->post_name;
 	// Add the page slug as a body class
 	if ( $post_slug ) {
 		$classes[] = 'page-'.$post_slug;
-	};
+	}
+	// get template file name
+	$template_file = basename($template);
+	if ( $template_file ) {
+		$classes[] = 'template-'.$template_file;
+	}
 	return $classes;
 };
 // uncomment next line if not already included in the theme. In _tk, check includes/extras.php
 //add_filter( 'body_class', '_tk_body_classes' );
+/**
+ * Alternate - Adds custom classes to the array of body classes.
+ * Check if your theme already has this kind of funtion, and if it does you can use bits of this to modify it.
+ */
+function insite_starter_body_classes( $classes ) {
+	global $post; // added to enable retrieval of slug
+	global $template; // added to enable retrieval of template file name
+	// Adds a class of group-blog to blogs with more than 1 published author.
+	if ( is_multi_author() ) {
+		$classes[] = 'group-blog';
+	}
+	// Adds a class of hfeed to non-singular pages.
+	if ( ! is_singular() ) {
+		$classes[] = 'hfeed';
+	}
+    if ( get_theme_mod( 'theme_option_setting' ) && get_theme_mod( 'theme_option_setting' ) !== 'default' ) {
+        $classes[] = 'theme-preset-active';
+    }
+	// get slug:
+	$post_slug = $post->post_name;
+	// Add the page slug as a body class
+	if ( $post_slug ) {
+		$classes[] = 'page-'.$post_slug;
+	}
+	// get template file name
+	$template_file = basename($template);
+	if ( $template_file ) {
+		$classes[] = 'template-'.$template_file;
+	}
+	return $classes;
+}
+add_filter( 'body_class', 'insite_starter_body_classes' );
 
 /*
  * Add year shortcode: [year]
