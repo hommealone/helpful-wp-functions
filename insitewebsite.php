@@ -55,6 +55,7 @@ function _tk_body_classes( $classes ) {
 };
 // uncomment next line if not already included in the theme. In _tk, check includes/extras.php
 //add_filter( 'body_class', '_tk_body_classes' );
+
 /**
  * Alternate - Adds custom classes to the array of body classes.
  * Check if your theme already has this kind of funtion, and if it does you can use bits of this to modify it.
