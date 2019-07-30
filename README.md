@@ -562,4 +562,29 @@ add_filter( 'get_the_archive_title', function ($title) {
     return $title;
 });
 
+/** =========================================================================
+ * Add asynch and defer attributes to enqueued scripts where needed.
+ * We add this to our enqueue functions.
+ */
+function insite_script_tag_async_defer_attrs( $tag, $handle, $src ) {
+    // the handles of the enqueued scripts we want to async and/or defer
+    // 1: list of script handles to defer.
+    $scripts_to_defer = array('script-handle1', 'google-map-api', '_tk-font-awesome');
+    // 2: list of script handles to async.
+    $scripts_to_async = array('lazysizes', 'google-map-api');
+   
+    // async scripts
+    foreach($scripts_to_async as $async_script){
+        if ( in_array( $handle, $scripts_to_async ) && (false === stripos($tag, 'async')) )
+        $tag = str_replace( ' src', ' async src', $tag );
+    }
+    // defer scripts
+    foreach($scripts_to_defer as $defer_script){
+        if ( in_array( $handle, $scripts_to_defer ) && (false === stripos($tag, 'defer')) )
+        $tag = str_replace( ' src', ' defer src', $tag );
+    }
+    return $tag;
+}
+add_filter( 'script_loader_tag', 'insite_script_tag_async_defer_attrs', 10, 3 );
+
 ```
