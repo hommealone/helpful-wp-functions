@@ -587,4 +587,44 @@ function insite_script_tag_async_defer_attrs( $tag, $handle, $src ) {
 }
 add_filter( 'script_loader_tag', 'insite_script_tag_async_defer_attrs', 10, 3 );
 
+/** =========================================================================
+ * Add custom post types to search results. Requires CPT UI plugin.
+ * see: https://docs.pluginize.com/article/23-post-type-posts-in-search-results
+ */
+ /** Version one: all CPTs */
+ function my_cptui_add_all_post_types_to_search( $query ) {
+	if ( is_admin() ) {
+		return;
+	}
+
+	if ( $query->is_search() ) {
+		$cptui_post_types = cptui_get_post_type_slugs();
+		$query->set(
+			'post_type',
+			array_merge(
+				array( 'post', 'page' ), // May also want to add the "page" post type.
+				$cptui_post_types
+			)
+		);
+	}
+}
+//add_filter( 'pre_get_posts', 'my_cptui_add_all_post_types_to_search' );
+/** Version two: selected CPTs */
+function my_cptui_add_post_type_to_search( $query ) {
+	if ( $query->is_search() ) {
+		// Replace these slugs with the post types you want to include.
+		$cptui_post_types = array( 'my_post_type', 'my_other_post_type' );
+
+		$query->set(
+			'post_type',
+			array_merge(
+				array( 'post' ),
+				$cptui_post_types
+			)
+		);
+	}
+}
+//add_filter( 'pre_get_posts', 'my_cptui_add_post_type_to_search' );
+
+
 ```
