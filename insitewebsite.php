@@ -620,3 +620,11 @@ function my_cptui_add_post_type_to_search( $query ) {
 }
 //add_filter( 'pre_get_posts', 'my_cptui_add_post_type_to_search' );
 
+/** =========================================================================
+ * Easy way to test code on a live site. Hide it from everyone except yourself.
+ * Substitute you user ID in this code.
+ * DON'T put this in your functions.php file; use it in a template file.
+ */
+if (get_current_user_id() == 7) {
+	//do something
+}
