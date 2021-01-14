@@ -635,6 +635,26 @@ if (get_current_user_id() == 7) {
 	//do something
 }
 
+/*
+ * Remove author category from WordPress XML sitemap
+ * see: https://duaneblake.co.uk/wordpress/how-to-remove-author-sitemaps-from-wordpress/
+*/
+function remove_author_category_pages_from_sitemap($provider, $name)
+{
+    if ('users' === $name) {
+        return false;
+    }
+    return $provider;
+}
+add_filter('wp_sitemaps_add_provider', 'remove_author_category_pages_from_sitemap', 10, 2);
 
+/* Disable double update notifications caused by conflict between Easy Updates Manager and WP Core update feature.
+ * see: https://wordpress.org/support/topic/email-notifications-on-plugin-updates/page/2/
+ */
+/* Disable auto-update email notifications for plugins. */
+add_filter( 'auto_plugin_update_send_email', '__return_false' );
+
+/* Disable auto-update email notifications for themes. */
+add_filter( 'auto_theme_update_send_email', '__return_false' );
 
 ```
