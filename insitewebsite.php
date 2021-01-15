@@ -650,3 +650,13 @@ add_filter( 'auto_plugin_update_send_email', '__return_false' );
 
 /* Disable auto-update email notifications for themes. */
 add_filter( 'auto_theme_update_send_email', '__return_false' );
+
+/*
+ * Remove WP code to add html margin-top
+ * Use in themes with hide-away navbar
+ * see: https://css-tricks.com/snippets/wordpress/remove-the-28px-push-down-from-the-admin-bar/
+ */
+function iw_remove_admin_bar_bump() {
+  remove_action('wp_head', '_admin_bar_bump_cb');
+}
+add_action('get_header', 'iw_remove_admin_bar_bump');
