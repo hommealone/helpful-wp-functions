@@ -667,4 +667,10 @@ function iw_remove_admin_bar_bump() {
 }
 add_action('get_header', 'iw_remove_admin_bar_bump');
 
+/** =======================================================================
+ * Workaround for broken autoptimize nag issue. 1/2021: this should eventually get fixed and this workaround can be removed. PS
+ * see: https://wordpress.org/support/topic/delete-notice-check-out-the-autoptimize-extra-settings-to-activate-this-option/page/4/
+ */
+add_filter( 'autoptimize_filter_main_imgopt_plug_notice', '__return_empty_string' );
+
 ```
