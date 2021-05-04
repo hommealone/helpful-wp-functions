@@ -376,6 +376,7 @@ function yt_cache_enable($return) {
 }
 add_filter('ccfm_supported_caching_exists', 'yt_cache_enable');
 
+/** Some Contact Form 7 related tweaks ============================== */
 /**
  * Load Contact Form 7 on Contact page only.
  * Deregister Contact Form 7 stylesheets on all pages without a form.
@@ -411,6 +412,17 @@ add_action('wp_print_scripts', function () {
         wp_dequeue_script( 'google-invisible-recaptcha' );
     }
 });
+/**
+ * Allow dots in tel fields in CF7:
+ * Filter the wpcf7_is_tel validation
+ */
+function custom_wpcf7_is_tel( $result, $tel ) { 
+  $result = preg_match( '/^[\+]?[0-9.() -]*$/', $tel );
+  return $result; 
+}
+add_filter( 'wpcf7_is_tel', 'custom_wpcf7_is_tel', 10, 2 );
+add_filter( 'wpcf7_is_tel*', 'custom_wpcf7_is_tel', 10, 2 );
+
 /** ==========================================================================
  * Enhancements for Quicktags
  * These can be additions to the AddQuicktags plugin or independent of it.
