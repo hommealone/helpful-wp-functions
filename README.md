@@ -432,7 +432,7 @@ add_filter( 'wpcf7_is_tel*', 'custom_wpcf7_is_tel', 10, 2 );
 /** ==========================================================================
  * Enhancements for Quicktags
  * These can be enhancements for the AddQuicktags plugin or independent from it.
- * 
+ * The order parameter (100) at the end of the hook ensures that this will load after tinymce advanced.
  * See: https://kinsta.com/blog/wordpress-text-editor/
  * See also: https://wordpress.org/plugins/addquicktag/
  */
@@ -475,7 +475,7 @@ function custom_quicktags() {
 	}
 }
 
-add_action( 'admin_print_footer_scripts', 'custom_quicktags' );
+add_action( 'admin_print_footer_scripts', 'custom_quicktags', 100 );
 
 /** ==========================================================================
  * Add custom favicon meta to head and keep it neat; 
