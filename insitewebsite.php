@@ -678,3 +678,19 @@ add_action('get_header', 'iw_remove_admin_bar_bump');
  * see: https://wordpress.org/support/topic/delete-notice-check-out-the-autoptimize-extra-settings-to-activate-this-option/page/4/
  */
 add_filter( 'autoptimize_filter_main_imgopt_plug_notice', '__return_empty_string' );
+
+/**
+ * New Page editor default to custom template such as full width.
+ * See: https://wordpress.stackexchange.com/questions/196289/is-there-a-way-to-change-the-default-page-template-selection
+ * */
+function wpse196289_default_page_template() {
+    global $post;
+    if ( 'page' == $post->post_type 
+        && 0 != count( get_page_templates( $post ) ) 
+        && get_option( 'page_for_posts' ) != $post->ID // Not the page for listing posts
+        && '' == $post->page_template // Only when page_template is not set
+    ) {
+        $post->page_template = "fullwidth.php";
+    }
+}
+add_action('add_meta_boxes', 'wpse196289_default_page_template', 1);
