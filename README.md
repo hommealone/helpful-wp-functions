@@ -430,6 +430,41 @@ add_filter( 'wpcf7_is_tel', 'custom_wpcf7_is_tel', 10, 2 );
 add_filter( 'wpcf7_is_tel*', 'custom_wpcf7_is_tel', 10, 2 );
 
 /** ==========================================================================
+* Function to disallow URLs in Contact Form 7 input, unless the fields is of type "url" or has "url" in its name, i.e. it is meant for URLs
+*/
+add_filter( 'wpcf7_validate_text', 'no_urls_allowed', 10, 3 );
+add_filter( 'wpcf7_validate_text*', 'no_urls_allowed', 10, 3 );
+add_filter( 'wpcf7_validate_textarea', 'no_urls_allowed', 10, 3 );
+add_filter( 'wpcf7_validate_textarea*', 'no_urls_allowed', 10, 3 );
+function no_urls_allowed( $result, $tag ) {
+
+	$tag = new WPCF7_Shortcode( $tag );
+
+	$type = $tag->type;
+	$name = $tag->name;
+
+	$value = isset( $_POST[$name] )
+		? trim( wp_unslash( strtr( (string) $_POST[$name], "\n", " " ) ) )
+		: '';
+
+	// If this is meant to be a URL field, do nothing
+	if ( 'url' == $tag->basetype || stristr($name, 'url') ) {
+		return $result;
+	}
+
+	// Check for URLs
+	$value = $_POST[$name];
+	$not_allowed = array( 'http://', 'https://', 'www.', '[url', '<a ', ' seo ' );
+	foreach ( $not_allowed as $na ) {
+		if ( stristr( $value, $na ) ) {
+			$result->invalidate( $tag, 'URLs are not allowed' );
+			return $result;
+		}
+	}
+	return $result;
+}
+
+/** ==========================================================================
  * Enhancements for Quicktags
  * These can be enhancements for the AddQuicktags plugin or independent from it.
  * The order parameter (100) at the end of the hook ensures that this will load after tinymce advanced.
