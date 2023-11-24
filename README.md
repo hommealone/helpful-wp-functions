@@ -40,6 +40,17 @@ function iw_remove_from_admin_bar( $wp_admin_bar ) {
     $wp_admin_bar->remove_menu( 'customize' );
 };
 
+/** Remove styles for Gutenburg block editor */
+function remove_wp_block_library_css(){
+	wp_dequeue_style( 'wp-block-library' ); /* REMOVE GUTENBERG BLOCK LIBRARY CSS FROM LOADING ON FRONTEND */
+	wp_dequeue_style( 'wp-block-library-theme' );
+	wp_dequeue_style( 'wc-block-style' ); /* REMOVE WOOCOMMERCE BLOCK CSS */
+	wp_dequeue_style( 'global-styles' ); /* REMOVE THEME.JSON */
+	wp_dequeue_style( 'classic-theme-styles' ); /* Remove classic-theme-styles */
+}
+/* un-comment next line if not using the block editor */
+add_action( 'wp_enqueue_scripts', 'remove_wp_block_library_css', 100 );
+
 /**
  * Adds custom classes to the array of body classes.
  */
