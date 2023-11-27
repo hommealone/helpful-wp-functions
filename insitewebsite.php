@@ -526,8 +526,8 @@ add_action( 'admin_print_footer_scripts', 'custom_quicktags', 100 );
  * meta name="application-name" controls the title of the application tile in Windows OS tiles.
  * All icon files have been added to /favicon/ directory outside of WordPress installation,
  * except favicon.ico (multi-size icon file), browserconfig.xml, and site.manifest, which are in the root.
- * browserconfig.xml and site.manifest point to files in the subdirectory.
- * Be sure that the domain name matches your site's root.
+ * The browserconfig.xml and site.manifest files, as generated, point to files in the subdirectory.
+ * The hrefs are root relative; no domain name required.
  */
 function iw_hook_favicon() {
 	$favicon_meta = PHP_EOL.'<!-- favicons for multiple devices -->'.PHP_EOL;
