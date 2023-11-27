@@ -518,7 +518,7 @@ function custom_quicktags() {
 add_action( 'admin_print_footer_scripts', 'custom_quicktags', 100 );
 
 /** ==========================================================================
- * Add custom favicon meta to head and keep it neat; 
+ * Add custom favicon links and metatags to the head and keep it neat; 
  * see: https://developer.wordpress.org/reference/hooks/wp_head/
  * See: https://realfavicongenerator.net/
  * Use priority 15, or greater as needed, to keep this at the end of the head.
