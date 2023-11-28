@@ -733,7 +733,7 @@ add_action('get_header', 'iw_remove_admin_bar_bump');
 add_filter( 'autoptimize_filter_main_imgopt_plug_notice', '__return_empty_string' );
 
 /**
- * New Page editor default to custom template such as full width.
+ * Change the default template used when a new page is created.
  * See: https://wordpress.stackexchange.com/questions/196289/is-there-a-way-to-change-the-default-page-template-selection
  * */
 function wpse196289_default_page_template() {
