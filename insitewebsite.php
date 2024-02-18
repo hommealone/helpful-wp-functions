@@ -10,6 +10,22 @@
  * Author: Paul Solomon
 */
 
+/** 
+ * TEMPORARILY SHUT DOWN THE LOGIN PAGE DURING HEAVY ATTACKS
+ * This makes the login page unreachable by redirecting its URL to the homepage.
+ * See: https://wordpress.stackexchange.com/questions/62889/disable-or-redirect-wp-login-php
+ * Comment or uncomment the next line to enable or disable the shutdown.
+ */
+//add_action('init','iw_stop_login');
+function iw_stop_login(){
+	global $pagenow;
+	$site_homepage = get_home_url();
+	if( 'wp-login.php' == $pagenow && !is_user_logged_in()) {
+		wp_safe_redirect( $site_homepage );
+		exit();
+	};
+};
+
 /*
  * Remove garbage from head
 */
