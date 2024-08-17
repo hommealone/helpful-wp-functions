@@ -163,18 +163,22 @@ function execute_php($html){
      return $html;
 };
 
-/*
- * replace WordPress Howdy with Hi in WordPress 3.3+
-*/
+/** =========================================================================
+ * replace WordPress Howdy in Admin Bar with Hi in WordPress 
+ * or remove howdy (replace with nothing)
+ * (updated for WP version 6.6+)
+ */
 function replace_howdy( $wp_admin_bar ) {
-    $my_account=$wp_admin_bar->get_node('my-account');
-    $newtitle = str_replace( 'Howdy,', 'Hi,', $my_account->title );            
-    $wp_admin_bar->add_node( array(
-        'id' => 'my-account',
-        'title' => $newtitle,
-    ) );
+    $my_account = $wp_admin_bar->get_node('my-account');
+    if ( isset( $my_account->title ) ) {
+        $newtitle = str_replace( 'Howdy,', '', $my_account->title );
+        $wp_admin_bar->add_node( array(
+            'id' => 'my-account',
+            'title' => $newtitle,
+        ) );
+    }
 };
-add_filter( 'admin_bar_menu', 'replace_howdy',25 );
+add_filter( 'admin_bar_menu', 'replace_howdy', 9992 );
 
 /**
  * just for TESTIING script handles:
